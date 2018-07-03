@@ -1,0 +1,7 @@
+# Test coverage configuration.
+
+[run]
+include = web/*
+omit =
+    web/tests*
+    tests/*

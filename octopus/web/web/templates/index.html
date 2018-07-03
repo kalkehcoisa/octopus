@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Analyze web pages contents</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="/js/jquery-3.3.1.min.js"></script>
+    </head>
+    <body>
+        <form id="analyze_form" method="POST">
+            <input type="text" value="https://www.bbc.com/news" name="url" placeholder="Url to analyze" />
+            <button type="submit">Analyze</button>
+        </form>
+
+        <br/><br/><br/>
+        <div id="display_results" style="display: none">
+            <div id="word_cloud">
+                <h3 id="word_cloud_title">100 Most common words in <i></i></h3>
+                <p></p>
+            </div>
+
+            <div id="result">
+            </div>
+        </div>
+
+        <script>
+        $(document).ready(function () {
+            $("#analyze_form").submit(function(ev) {
+                var url = $('input[name="url"]').val();
+                $('#display_results').hide();
+                ev.preventDefault();
+
+
+                $.post('/', data=$(this).serialize()).done(function(data) {
+                    $("#result").html('<a>' + data['words'] + '</a>');
+
+                    $('#word_cloud_title i').text(url);
+                    $("#word_cloud p").html('<img src="' + data['word_cloud'] + '" />');
+
+                    $('#display_results').show();
+                    return false;
+                });
+                return false;
+            });
+        });
+        </script>
+    </body>
+</html>

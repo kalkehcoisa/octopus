@@ -1,0 +1,12 @@
+backports-abc==0.5        # via tornado
+beautifulsoup4==4.6.0
+certifi>=2017.4.17        # via requests
+lxml==4.2.3
+nltk==3.3.0
+pillow==5.2.0             # via wordcloud
+requests==2.19.1
+singledispatch==3.4.0.3   # via tornado
+six==1.10.0               # via singledispatch
+tornado==4.4.1
+wheel==0.29.0
+wordcloud==1.4.1
