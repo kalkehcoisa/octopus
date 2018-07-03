@@ -3,11 +3,11 @@ import os
 from tornado.web import (
     StaticFileHandler,
 )
-from handlers import base
+from handlers import main
 from settings import STATIC_PATH, WCLOUD_PATH
 
 url_patterns = [
-    (r"/", base.MainHandler),
+    (r"/", main.MainHandler),
 
     (r'/word_cloud/(.*)', StaticFileHandler, {'path': WCLOUD_PATH}),
 

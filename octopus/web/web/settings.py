@@ -21,7 +21,14 @@ BASE_DIR = os.path.dirname(PROJECT_ROOT)
 WCLOUD_PATH = path(PROJECT_ROOT, 'wcloud')
 STATIC_PATH = path(PROJECT_ROOT, 'static')
 TEMPLATE_PATH = path(PROJECT_ROOT, "templates")
+WIT_AUTH_KEY = os.environ.get('WIT_AUTH_KEY')
 LOG_DIR = "/var/log/web"
+
+
+# database settings
+DB_NAME = os.environ.get('MYSQL_DATABASE')
+DB_USER = os.environ.get('MYSQL_USER')
+DB_PASSWORD = os.environ.get('MYSQL_PASSWORD')
 
 # add project path to system that could importable. eg:
 # >>> from web.handlers import base

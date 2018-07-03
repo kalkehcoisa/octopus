@@ -14,14 +14,17 @@ def make_word_cloud(words):
     filename.update(bytes(' '.join(words), 'utf-8'))
     filename = filename.hexdigest() + '.png'
     fpath = os.path.join(WCLOUD_PATH, filename)
+    most_common = Counter(words).most_common(100)
     if not os.path.exists(fpath):
-        wordcloud = WordCloud().generate_from_frequencies(
-            frequencies=dict(Counter(words).most_common(100))
+        wc = WordCloud(
+            width=800, height=400
+        ).generate_from_frequencies(
+            frequencies=dict(most_common)
         )
-        image = wordcloud.to_image()
+        image = wc.to_image()
         image.save(fpath)
     url = '/word_cloud/' + filename
-    return url
+    return most_common, url
 
 
 def remove_tags(dirty_html):
@@ -70,14 +73,3 @@ def nltk_text(dirty_text):
         )
     ]
     return nouns
-
-
-def make_word_list(dirty_html):
-    """
-    Receives a raw html document, cleans the code,
-    extracts the text, keeps only nouns and verbs
-    with the count of each. All lowercase.
-    """
-    dirty_text = remove_tags(dirty_html)
-    words = nltk_text(dirty_text)
-    return words

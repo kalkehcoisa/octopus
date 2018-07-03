@@ -1,10 +1,26 @@
 version: '3'
+
 services:
   web:
     build: ./web
     ports:
-     - "5000:5000"
+      - "5000:5000"
     volumes:
-     - ./web:/code
-  # redis:
-  #   image: "redis:alpine"
+      - ./web:/code
+    env_file:
+      - .env
+    environment:
+      MYSQL_USER: some_user
+      MYSQL_PASSWORD: any_password
+      MYSQL_ROOT_PASSWORD: asuperpassword
+      MYSQL_DATABASE: texter_db
+
+  db:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_USER: some_user
+      MYSQL_PASSWORD: any_password
+      MYSQL_ROOT_PASSWORD: asuperpassword
+      MYSQL_DATABASE: texter_db

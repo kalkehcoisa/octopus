@@ -7,6 +7,7 @@ import tornado.autoreload
 from tornado.options import options, parse_command_line, parse_config_file
 import logging
 
+from models import Base, engine
 from settings import settings
 from web.urls import url_patterns
 
@@ -22,6 +23,10 @@ def main():
     parse_command_line()
     if options.config:
         parse_config_file(options.config)
+
+    # Base.metadata.drop_all(engine)
+    Base.metadata.create_all(engine)
+
     app = MainApplication()
     app.listen(options.port)
     tornado.ioloop.IOLoop.current().start()
