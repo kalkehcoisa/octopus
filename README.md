@@ -54,3 +54,4 @@ Also, there is an "admin" interface where it's possible to see all the words reg
 3. Add a rest interface to the database container instead of conecting directly to it in the web container.
 4. Improve the error messages thrown by *AsyncHTTPClient* to be more user friendly in *fetch_url*.
 5. Use a key pair for each user instead of a global pair.
+6. Add some script like [wait-for-it](https://github.com/vishnubob/wait-for-it) to guarantee the web container is going to start only after the db one.
