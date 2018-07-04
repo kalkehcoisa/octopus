@@ -14,17 +14,22 @@ class MainHandler(tornado.web.RequestHandler):
     @gen.coroutine
     def save_word_data(self, most_common):
         # saves the word data into the database
-        with DBSession.no_autoflush:
-            for word, num in most_common:
-                w_obj = DBSession.query(WordUsage).filter(WordUsage.word == word)
-                if w_obj.count() > 0:
-                    w_obj = w_obj.first()
-                    w_obj.count += num
-                    DBSession.merge(w_obj)
-                else:
-                    w_obj = WordUsage(word=word, count=num)
-                    DBSession.add(w_obj)
-                raise gen.Return(w_obj.id)
+        objs = []
+        for word, num in most_common:
+            w_obj = DBSession.query(WordUsage).filter(WordUsage.word == word)
+            if w_obj.count() > 0:
+                w_obj = w_obj.first()
+                w_obj.count += num
+                DBSession.merge(w_obj)
+            else:
+                w_obj = WordUsage(word=word, count=num)
+                objs.append(w_obj)
+
+        if len(objs) > 0:
+            DBSession.bulk_save_objects(objs)
+            DBSession.flush()
+            DBSession.commit()
+
         raise gen.Return(False)
 
     @gen.coroutine
@@ -43,15 +48,16 @@ class MainHandler(tornado.web.RequestHandler):
                 )
             })
         ents = json.loads(r.body)['entities']
-        with DBSession.no_autoflush:
-            sentiment = ents and ents.get('sentiment')
-            if sentiment:
-                sentiment = sentiment[0]['value']
-                s_obj = DBSession.query(UrlSentiment).filter(UrlSentiment.sentiment == sentiment)
-                if s_obj.count() == 0:
-                    s_obj = UrlSentiment(url=url, sentiment=sentiment)
-                    DBSession.add(s_obj)
-                    raise gen.Return(s_obj)
+        sentiment = ents and ents.get('sentiment')
+        if sentiment:
+            sentiment = sentiment[0]['value']
+            s_obj = DBSession.query(UrlSentiment).filter(UrlSentiment.sentiment == sentiment)
+            if s_obj.count() == 0:
+                s_obj = UrlSentiment(url=url, sentiment=sentiment)
+                DBSession.add(s_obj)
+                DBSession.commit()
+
+                raise gen.Return(s_obj)
         raise gen.Return(False)
 
     @gen.coroutine

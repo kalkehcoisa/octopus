@@ -44,6 +44,13 @@ class WordUsage(Base):
 
         self.id = hashlib.sha512((word + uuid.uuid4().hex).encode()).hexdigest()
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'word': self.word,
+            'count': self.count,
+        }
+
 
 class UrlSentiment(Base):
     __tablename__ = 'surl_entiment'
@@ -58,3 +65,10 @@ class UrlSentiment(Base):
         self.sentiment = sentiment
 
         self.id = hashlib.sha512((url + uuid.uuid4().hex).encode()).hexdigest()
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'url': self.url,
+            'sentiment': self.sentiment,
+        }
