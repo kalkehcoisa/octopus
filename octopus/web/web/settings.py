@@ -1,14 +1,46 @@
-#!/usr/bin/env python
-
-
+import base64
 import logging
 import logging.config
 import os
 import uuid
 import sys
 
+from Crypto.PublicKey import RSA
 import tornado
 from tornado.options import define, options
+
+
+def generate_or_get_keys():
+    prikey = os.path.join(PROJECT_ROOT, 'keys/', 'private.pem')
+    pukey = os.path.join(PROJECT_ROOT, 'keys/', 'public.pem')
+
+    if os.path.exists(prikey) and os.path.exists(pukey):
+        with open(prikey, "rb") as file_out:
+            private_key = file_out.read()
+
+        with open(pukey, "rb") as file_out:
+            public_key = file_out.read()
+        return RSA.import_key(private_key), RSA.import_key(public_key)
+    else:
+        return generate_keys()
+
+
+def generate_keys():
+    """
+    RSA modulus length must be a multiple of 256 and >= 1024
+    """
+    prikey = os.path.join(PROJECT_ROOT, 'keys/', 'private.pem')
+    pukey = os.path.join(PROJECT_ROOT, 'keys/', 'public.pem')
+
+    key = RSA.generate(2048)
+    private_key = key.export_key()
+    with open(prikey, "wb") as file_out:
+        file_out.write(private_key)
+
+    public_key = key.publickey().export_key()
+    with open(pukey, "wb") as file_out:
+        file_out.write(public_key)
+    return RSA.import_key(private_key), RSA.import_key(public_key)
 
 
 def path(root, *ag):

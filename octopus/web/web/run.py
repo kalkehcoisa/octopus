@@ -1,22 +1,26 @@
-#!/usr/bin/env python
-
-
 import tornado.ioloop
 import tornado.web
 import tornado.autoreload
 from tornado.options import options, parse_command_line, parse_config_file
 import logging
 
-from models import Base, engine
-from settings import settings
-from web.urls import url_patterns
+import settings
 
 
 class MainApplication(tornado.web.Application):
+    """
+    Just starts the application with the provided settings.
+    """
 
     def __init__(self):
-        logging.info("init MainApplication with settings: %s" % str(settings))
-        tornado.web.Application.__init__(self, url_patterns, **settings)
+        logging.info(
+            "init MainApplication with settings: %s" % str(settings.settings)
+        )
+
+        from web.urls import url_patterns
+        tornado.web.Application.__init__(
+            self, url_patterns, **settings.settings
+        )
 
 
 def main():
@@ -24,7 +28,11 @@ def main():
     if options.config:
         parse_config_file(options.config)
 
-    # Base.metadata.drop_all(engine)
+    priv, pub = settings.generate_or_get_keys()
+    settings.settings['private_key'] = priv
+    settings.settings['public_key'] = pub
+
+    from models import Base, engine
     Base.metadata.create_all(engine)
 
     app = MainApplication()

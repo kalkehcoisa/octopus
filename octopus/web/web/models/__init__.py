@@ -8,6 +8,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import configure_mappers
 
 import settings
+from models import types
 
 # run configure_mappers after defining all of the models to ensure
 # all relationships can be setup
@@ -31,11 +32,15 @@ DBSession = session_fac()
 
 
 class WordUsage(Base):
+    """
+    Model that stores the global statistics about word usage
+    in the analyzed websites.
+    It keeps the words and their usage count.
+    """
     __tablename__ = 'word_usage'
 
     id = Column(String(length=255), primary_key=True)
-    # no asymmetrical encryption: how can I show the data in the "admin"?
-    word = Column(String(length=255), nullable=False, unique=True)
+    word = Column(types.RsaString, nullable=False)
     count = Column(Integer, nullable=False)
 
     def __init__(self, word, count):
@@ -53,10 +58,13 @@ class WordUsage(Base):
 
 
 class UrlSentiment(Base):
-    __tablename__ = 'surl_entiment'
+    """
+    This model keeps the data about the sentiment expressed
+    by the url contents.
+    """
+    __tablename__ = 'url_sentiment'
 
     id = Column(String(length=255), primary_key=True)
-    # no asymmetrical encryption: how can I show the data in the "admin"?
     url = Column(String(length=255), nullable=False, unique=True)
     sentiment = Column(String(length=255), nullable=False)
 

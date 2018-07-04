@@ -5,6 +5,7 @@ lxml==4.2.3
 mysqlclient==1.3.13
 nltk==3.3.0
 pillow==5.2.0             # via wordcloud
+PyCryptodome
 singledispatch==3.4.0.3   # via tornado
 six==1.10.0               # via singledispatch
 sqlalchemy==1.2.9

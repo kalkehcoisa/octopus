@@ -4,6 +4,7 @@
 
 {% block body %}
 <div class="container">
+    {% if items.count() > 0 %}
     <table class="table table-dark table-hover">
     <thead>
         <tr>
@@ -24,5 +25,6 @@
         {% end for %}
     </tbody>
     </table>
+    {% end if %}
 </div>
 {% end body %}

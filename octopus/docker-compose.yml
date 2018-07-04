@@ -9,6 +9,9 @@ services:
       - ./web:/code
     env_file:
       - .env
+    depends_on:
+      - "db"
+    restart: on-failure
     environment:
       MYSQL_USER: some_user
       MYSQL_PASSWORD: any_password
