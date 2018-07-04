@@ -34,13 +34,23 @@ This is a simple system based on docker-compose that gathers data from urls ente
 
 
 ## Install and Deploy
-To install, it's necessary to have docker-compose and run in the root path (the path where *docker-compose.yml* is):
+To install, it's necessary to have docker-compose and run the following lines in the root path (the path where *docker-compose.yml* is):
 ```
 docker-compose rm -fv
 docker-compose build
 docker-compose up
 ```
+On the first run, it will generate the private/public keys to be used. They are going to be saved in *octopus/web/web/keys/* file as **private.pem** and **public.pem**. For now, they are being kept their. But it's recommended to move - at least - the private one to somewhere else safe: some place that only the key owner has access.
+
 
 ## Usage
 Just access http://localhost:5000, fill the input with a valid url and the system is going to gather the text from there, generate and show a word cloud from the top 100 words and show the top 100 words.
 Also, there is an "admin" interface where it's possible to see all the words registered throughout all the requests to pages.
+
+
+## Possible improvements
+1. Remove unnecessary/noisy words like: menu bars contents, footers, etc.
+2. Detect context and remove words that are always present. For example, for a news website, we could ignore words like these ones: news, world, home, reporter, reports, etc.
+3. Add a rest interface to the database container instead of conecting directly to it in the web container.
+4. Improve the error messages thrown by *AsyncHTTPClient* to be more user friendly in *fetch_url*.
+5. Use a key pair for each user instead of a global pair.

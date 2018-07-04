@@ -10,6 +10,11 @@ from settings import WCLOUD_PATH
 
 
 def make_word_cloud(words):
+    """
+    Receives the words list, generates a word cloud
+    and returns a list with the 100 most common ones
+    and the url to view the image generated.
+    """
     filename = hashlib.md5()
     filename.update(bytes(' '.join(words), 'utf-8'))
     filename = filename.hexdigest() + '.png'
@@ -49,6 +54,11 @@ def remove_tags(dirty_html):
 
 
 def clear_word(word):
+    """
+    Removes apostrophes from the beginning of words.
+    It will be needed to add other symbols and rules here
+    to improve the clean capabilities of this app.
+    """
     return re.sub('^[\']', '', word)
 
 
