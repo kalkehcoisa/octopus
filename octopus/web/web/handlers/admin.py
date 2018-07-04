@@ -10,7 +10,7 @@ class WordUsageHandler(tornado.web.RequestHandler):
         items = DBSession.query(WordUsage).order_by(WordUsage.count.desc())
         self.render(
             'admin.html',
-            **{'items': items, 'title': 'Word Frequency'}
+            **{'items': items, 'title': 'Word Frequency', 'page': 'words'}
         )
 
 
@@ -20,5 +20,5 @@ class UrlSentimentHandler(tornado.web.RequestHandler):
         items = DBSession.query(UrlSentiment).order_by(UrlSentiment.url)
         self.render(
             'admin.html',
-            **{'items': items, 'title': 'Url Sentiments'}
+            **{'items': items, 'title': 'Url Sentiments', 'page': 'sentiment'}
         )

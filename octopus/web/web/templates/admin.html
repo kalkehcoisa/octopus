@@ -1,24 +1,28 @@
+{% extends base.html %}
+
 {% block title %}Admin - {{title}}{% end title %}
 
 {% block body %}
-<table>
-</thead>
-    <tr>
-    {% for k in items[0].to_dict().keys() %}
-    <th>{{k}}</th>
-    {% end for %}
-    </tr>
-</thead>
-<tbody>
-    {% for item in items %}
-    <tr>
-    {% for k, v in item.to_dict().items() %}
-    <td>
-        {% if len(str(v)) > 50 %}{{v[:50]}}...{% else %}{{v}}{% end if %}
-    </td>
-    {% end for %}
-    </tr>
-{% end for %}
-<tbody>
-</table>
+<div class="container">
+    <table class="table table-dark table-hover">
+    <thead>
+        <tr>
+            {% for k in items[0].to_dict().keys() %}
+            <th>{{k}}</th>
+            {% end for %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+        {% for k, v in item.to_dict().items() %}
+        <td>
+            {% if len(str(v)) > 50 %}{{v[:50]}}...{% else %}{{v}}{% end if %}
+        </td>
+        {% end for %}
+        </tr>
+        {% end for %}
+    </tbody>
+    </table>
+</div>
 {% end body %}

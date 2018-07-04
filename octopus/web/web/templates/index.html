@@ -3,9 +3,11 @@
 {% block title %}Analyze web pages contents{% end title %}
 
 {% block body %}
-<form id="analyze_form" method="POST">
-    <input type="text" value="https://www.bbc.com/news" name="url" placeholder="Url to analyze" />
-    <button type="submit" name="analyze">Analyze</button>
+<p class="lead">Just write down a valid url and analyze its contents.</p>
+
+<form id="analyze_form" method="POST" class="form-inline mt-2 mt-md-0">
+    <input class="form-control mr-sm-4" type="text" value="https://www.bbc.com/news" name="url" placeholder="Url to analyze" />
+    <button class="btn btn-lg btn-primary" type="submit" name="analyze">Analyze</button>
 </form>
 
 <br/><br/><br/>
@@ -43,8 +45,6 @@ $(document).ready(function () {
             return false;
         }) 
         .fail(function(xhr) {
-            //console.log(xhr);
-            //alert(xhr);
             $("#error").html(
                 '<p>' + xhr.statusText + '</p>' +
                 '<pre>' + xhr.responseText + '</pre>'

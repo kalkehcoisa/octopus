@@ -22,7 +22,7 @@ engine = create_engine(
     encoding='utf-8',
     echo=True
 )
-session_fac = sessionmaker()
+session_fac = sessionmaker(autoflush=False)
 session_fac.configure(bind=engine)
 
 Base = declarative_base()
